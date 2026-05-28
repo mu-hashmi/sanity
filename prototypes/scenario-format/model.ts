@@ -10,7 +10,6 @@ export type DriverKind = (typeof driverValues)[number]
 
 const NonEmptyText = Schema.String.pipe(Schema.minLength(1))
 const CheckName = Schema.String.pipe(Schema.pattern(/^[a-z][a-z0-9-]*$/))
-const DriverSchema = Schema.Literal(...driverValues)
 
 const ArtifactConfigSchema = Schema.Struct({
   recording: Schema.Boolean,
@@ -359,7 +358,7 @@ export function resolveRunPlan(state: PrototypeState): RunPlanResult {
       runMode: state.runMode,
       sandboxSnapshot: selectedProfileArtifact.profile.sandbox.snapshot,
       setup: selectedProfileArtifact.profile.setup,
-      app: selectedProfileArtifact.profile.app,
+      app: resolvedApp(selectedProfileArtifact.profile.app),
       artifacts: selectedProfileArtifact.profile.artifacts,
       checks,
     },
@@ -508,8 +507,8 @@ function resolveCheck(
         name,
         driver: check.driver,
         source: check.instructions,
-        maxMinutes: check.max_minutes,
         preview: firstLine(content),
+        ...optionalMaxMinutes(check.max_minutes),
       }
     }
     case 'command':
@@ -517,10 +516,29 @@ function resolveCheck(
         name,
         driver: check.driver,
         source: check.command,
-        maxMinutes: check.max_minutes,
         preview: check.command,
+        ...optionalMaxMinutes(check.max_minutes),
       }
   }
+}
+
+function resolvedApp(app: ProfileFile['app']): RunPlan['app'] {
+  if (app.healthcheck === undefined) {
+    return {
+      start: app.start,
+      port: app.port,
+    }
+  }
+
+  return {
+    start: app.start,
+    port: app.port,
+    healthcheck: app.healthcheck,
+  }
+}
+
+function optionalMaxMinutes(maxMinutes: number | undefined): Pick<ResolvedCheck, 'maxMinutes'> | {} {
+  return maxMinutes === undefined ? {} : { maxMinutes }
 }
 
 function formatInvocation(state: PrototypeState): string {
