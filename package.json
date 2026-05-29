@@ -11,6 +11,13 @@
     "prototype:run-model": "tsx prototypes/run-model/record-shape.ts",
     "prototype:run-model:snapshot": "tsx prototypes/run-model/record-shape.ts --snapshot",
     "prototype:daytona-spike": "tsx prototypes/run-model/daytona-spike.ts",
+    "prototype:verifier-harness": "tsx prototypes/verifier-harness/daytona-harness.ts --mode all",
+    "prototype:verifier-harness:harness": "tsx prototypes/verifier-harness/daytona-harness.ts --mode harness",
+    "prototype:verifier-harness:agent": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-baseline",
+    "prototype:verifier-harness:agent-hinted-visible": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-hinted-visible",
+    "prototype:verifier-harness:agent-preopened": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-preopened",
+    "prototype:verifier-harness:agent-preopened-hinted": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-preopened-hinted",
+    "prototype:verifier-harness:matrix": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-matrix",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
