@@ -25,5 +25,5 @@
       }
     ]
   },
-  "include": ["prototypes/**/*.ts"]
+  "include": ["src/**/*.ts", "tests/**/*.ts", "vitest.config.ts", "vitest.live.config.ts"]
 }

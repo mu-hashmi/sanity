@@ -1,11 +1,11 @@
 # Use Effect TypeScript for the Sanity core
 
-Sanity should be built in TypeScript with Effect as the core programming model. The project is mostly orchestration of unsafe real-world work: sandbox lifecycle, process execution, timeouts, recording, cleanup, artifact writes, and structured records; Effect gives typed errors, scoped cleanup, Schema-backed data models, and diagnostics that match that problem shape.
+Sanity should be built in TypeScript with Effect as the core programming model. The project is mostly orchestration of unsafe real-world work: sandbox lifecycle, process execution, timeouts, cleanup, verifier access, and structured run results; Effect gives typed errors, scoped cleanup, Schema-backed data models, and diagnostics that match that problem shape.
 
 **Considered Options**
 
 - Plain TypeScript with `async` and ad hoc `try` / `catch`: rejected because cleanup and failure classification will spread across the runner.
-- Zod and Commander as the old CLI surface: removed because the project reset around Effect Schema prototypes.
+- Zod and Commander as the old CLI surface: removed because the project reset around Effect Schema and Effect CLI.
 - `@effect/schema`: rejected because Schema is part of `effect` in current Effect versions.
 
 **Consequences**

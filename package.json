@@ -6,33 +6,27 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepare": "effect-language-service patch",
-    "prototype:scenario": "tsx prototypes/scenario-format/tui.ts",
-    "prototype:scenario:snapshot": "tsx prototypes/scenario-format/tui.ts --snapshot",
-    "prototype:run-model": "tsx prototypes/run-model/record-shape.ts",
-    "prototype:run-model:snapshot": "tsx prototypes/run-model/record-shape.ts --snapshot",
-    "prototype:daytona-spike": "tsx prototypes/run-model/daytona-spike.ts",
-    "prototype:verifier-harness": "tsx prototypes/verifier-harness/daytona-harness.ts --mode all",
-    "prototype:verifier-harness:harness": "tsx prototypes/verifier-harness/daytona-harness.ts --mode harness",
-    "prototype:verifier-harness:agent": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-baseline",
-    "prototype:verifier-harness:agent-hinted-visible": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-hinted-visible",
-    "prototype:verifier-harness:agent-preopened": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-preopened",
-    "prototype:verifier-harness:agent-preopened-hinted": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-preopened-hinted",
-    "prototype:verifier-harness:matrix": "tsx prototypes/verifier-harness/daytona-harness.ts --mode agent-matrix",
+    "sanity": "tsx src/cli/main.ts",
+    "test": "vitest run",
+    "test:live": "vitest run --config vitest.live.config.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@daytona/sdk": "^0.182.0",
-    "@effect/cli": "^0.75.1",
-    "@effect/platform": "^0.96.1",
-    "@effect/platform-node": "^0.106.0",
-    "effect": "^3.21.2",
+    "@effect/platform-node": "^4.0.0-beta.74",
+    "effect": "^4.0.0-beta.74",
     "yaml": "^2.8.2"
+  },
+  "bin": {
+    "sanity": "./dist/src/cli/main.js"
   },
   "devDependencies": {
     "@effect/language-service": "^0.86.2",
+    "@effect/vitest": "^4.0.0-beta.74",
     "@types/node": "^25.0.3",
     "effect-solutions": "^0.5.3",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
   }
 }
