@@ -64,7 +64,7 @@ const validateEnv = (env: Readonly<Record<string, string>>, field: string): Effe
   Effect.gen(function* () {
     for (const name of Object.keys(env)) {
       if (!envNamePattern.test(name)) {
-        yield* new ConfigError({
+        return yield* new ConfigError({
           message: `${field} contains invalid environment variable name: ${name}.`,
           actionableFix: "Use POSIX-style environment variable names: letters, numbers, and underscores, not starting with a number."
         })

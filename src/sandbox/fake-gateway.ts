@@ -85,7 +85,7 @@ export const makeFakeGateway = (state: FakeGatewayState): DaytonaGatewayShape =>
       yield* failIfConfigured(state, "provider")
       push(state, isVerifierCommand(command) ? { _tag: "InvokedVerifier", command, timeout } : { _tag: "RanSetupCommand", command, timeout })
       if (Option.isSome(state.interruptPhase) && state.interruptPhase.value === "verifier" && isVerifierCommand(command)) {
-        yield* Effect.interrupt
+        return yield* Effect.interrupt
       }
       return nextExit(state)
     }),

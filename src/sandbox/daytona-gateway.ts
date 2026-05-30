@@ -186,7 +186,7 @@ export const makeDaytonaGateway = (): DaytonaGatewayShape => {
         }
         const exit = yield* runShell(sandbox, commandToShell(extractCommand), Option.none(), {}, Option.none())
         if (exit.exitCode !== 0) {
-          yield* new RunFailure({
+          return yield* new RunFailure({
             phase: "candidate",
             message: `Could not extract candidate archive in sandbox: ${exit.stdout}`,
             actionableFix: "Check that the candidate archive is a valid tarball and the sandbox has tar installed."
@@ -259,7 +259,7 @@ export const makeDaytonaGateway = (): DaytonaGatewayShape => {
           }
         }
         if (!healthy) {
-          yield* new RunFailure({
+          return yield* new RunFailure({
             phase: "app",
             message: `App did not become healthy at ${healthcheckUrl}.`,
             actionableFix: "Check the app start command, port, and healthcheckPath in the profile."
@@ -325,7 +325,7 @@ export const makeDaytonaGateway = (): DaytonaGatewayShape => {
         )
         const failure = [stopRecordingFailure, downloadFailure, stopComputerUseFailure].find(Option.isSome)
         if (failure !== undefined) {
-          yield* failure.value
+          return yield* failure.value
         }
       }),
     collectOutput: (handle, agentOutputDir, sink) =>
@@ -350,7 +350,7 @@ export const makeDaytonaGateway = (): DaytonaGatewayShape => {
         }
         const packExit = yield* runShell(sandbox, commandToShell(packCommand), packCommand.cwd, packCommand.env, Option.some(Duration.minutes(5)))
         if (packExit.exitCode !== 0) {
-          yield* new RunFailure({
+          return yield* new RunFailure({
             phase: "collect-output",
             message: `Could not package agent output: ${packExit.stdout}`,
             actionableFix: "Check verifier agent output permissions and path."

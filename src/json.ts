@@ -16,22 +16,17 @@ const NullableString = Schema.NullOr(Schema.String)
 const NullableNumber = Schema.NullOr(Schema.Number)
 
 export const OutputSinkJsonSchema = Schema.Union([
-  Schema.Struct({
-    _tag: Schema.Literal("NoOutput")
-  }),
-  Schema.Struct({
-    _tag: Schema.Literal("LocalArtifactPath"),
+  Schema.TaggedStruct("NoOutput", {}),
+  Schema.TaggedStruct("LocalArtifactPath", {
     path: Schema.String
   }),
-  Schema.Struct({
-    _tag: Schema.Literal("ExternalSink"),
+  Schema.TaggedStruct("ExternalSink", {
     uri: Schema.String
   })
 ])
 export type OutputSinkJson = typeof OutputSinkJsonSchema.Type
 
-const CandidateJsonSchema = Schema.Struct({
-  _tag: Schema.Literal("LocalCandidate"),
+const CandidateJsonSchema = Schema.TaggedStruct("LocalCandidate", {
   path: Schema.String
 })
 
@@ -99,17 +94,10 @@ const SandboxSummaryJsonSchema = Schema.Struct({
 })
 
 const DisposalOutcomeJsonSchema = Schema.Union([
-  Schema.Struct({
-    _tag: Schema.Literal("Deleted")
-  }),
-  Schema.Struct({
-    _tag: Schema.Literal("Retained")
-  }),
-  Schema.Struct({
-    _tag: Schema.Literal("Archived")
-  }),
-  Schema.Struct({
-    _tag: Schema.Literal("Failed"),
+  Schema.TaggedStruct("Deleted", {}),
+  Schema.TaggedStruct("Retained", {}),
+  Schema.TaggedStruct("Archived", {}),
+  Schema.TaggedStruct("Failed", {
     message: Schema.String
   })
 ])

@@ -44,7 +44,7 @@ const setupCommands = (request: RunRequest, sandbox: SandboxHandle): Effect.Effe
     for (const command of request.setup) {
       const exit = yield* gateway.runCommand(sandbox, command, Option.none())
       if (exit.exitCode !== 0) {
-        yield* new RunFailure({
+        return yield* new RunFailure({
           phase: "setup",
           message: `Setup command failed with exit code ${exit.exitCode}: ${exit.stdout}${exit.stderr}`,
           actionableFix: "Fix the setup command in the selected Sanity profile."
@@ -128,7 +128,7 @@ const runVerifierScenarios = (
         (capture) => gateway.stopCapture(sandbox, capture, request.outputSink, recordingName(request, scenario))
       )
       if (commandOutcome._tag === "Failed") {
-        yield* commandOutcome.failure
+        return yield* commandOutcome.failure
       } else {
         exits.push(commandOutcome.exit)
       }
@@ -227,7 +227,7 @@ export const run = (
         preparedSink = preparedSinkOutcome.sink
         break
       case "ConfigFailed":
-        return yield* Effect.fail(preparedSinkOutcome.failure)
+        return yield* preparedSinkOutcome.failure
       case "OutputFailed":
         return executedOutcome(failedResult(request, preparedSinkOutcome.failure, Option.none(), Option.none()))
     }
